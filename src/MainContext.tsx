@@ -1,3 +1,4 @@
+import { LinearProgress } from '@mui/material';
 import React, {
   ReactNode, createContext, useEffect, useState,
 } from 'react';
@@ -31,6 +32,7 @@ export const MainContextProvider = ({ children }: Props) => {
     INITIAL_STATE.currenciesWithBalance,
   );
   const [error, setError] = useState(INITIAL_STATE.error);
+  const [loading, setLoading] = useState(true);
 
   const generateCurrenciesStructure = (_symbolToName: CurrencyHash): CurrencyType[] => (
     Object.entries(_symbolToName).map(([key, value]) => ({
@@ -46,16 +48,20 @@ export const MainContextProvider = ({ children }: Props) => {
         const { data } = await getCurrencyList();
         const currenciesWithRandomBalance = generateCurrenciesStructure(data);
         setCurrenciesWithBalance(currenciesWithRandomBalance);
+        setLoading(false);
       } catch (callError) {
         if (typeof callError === 'string') {
           setError(callError);
         } else if (callError instanceof Error) {
           setError(callError.message);
         }
+        setLoading(false);
       }
     };
     getCurrencies();
   }, []);
+
+  if (loading) return <LinearProgress />;
 
   return (
     <MainContext.Provider value={{

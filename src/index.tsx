@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Container } from '@mui/material';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -7,9 +8,17 @@ import { MainContextProvider } from './MainContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MainContextProvider>
-      <App />
-    </MainContextProvider>
+    <Container
+      maxWidth="xs"
+      style={{
+        backgroundColor: 'rgb(247,247,247)',
+        padding: '2em 1em',
+      }}
+    >
+      <MainContextProvider>
+        <App />
+      </MainContextProvider>
+    </Container>
   </React.StrictMode>,
   document.getElementById('root'),
 );
