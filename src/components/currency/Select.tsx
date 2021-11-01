@@ -27,11 +27,17 @@ type Props = {
 const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const { currenciesWithBalance } = useContext(MainContext);
+  const {
+    currenciesWithBalance,
+    topCurrency,
+    bottomCurrency,
+  } = useContext(MainContext);
 
   const currencyFilter = (currency: CurrencyType) => (
-    currency.symbol.toLowerCase().includes(search.toLowerCase())
-    || currency.name.toLowerCase().includes(search.toLowerCase())
+    (currency.symbol.toLowerCase().includes(search.toLowerCase())
+      || currency.name.toLowerCase().includes(search.toLowerCase()))
+    && (currency.symbol !== topCurrency.symbol
+      && currency.symbol !== bottomCurrency.symbol)
   );
 
   const handleClickOpen = () => {
@@ -42,9 +48,9 @@ const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
     setOpen(false);
   };
 
-  const handleListClick = (currency: CurrencyType) => {
-    handleCurrencyChange(currency);
+  const handleListClick = async (currency: CurrencyType) => {
     handleClose();
+    handleCurrencyChange(currency);
   };
 
   return (

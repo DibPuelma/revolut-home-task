@@ -5,30 +5,19 @@ import {
 } from '@mui/material';
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import CurrencyCard from './components/currency/Card';
-import CurrencyType from './types/currency';
 import { capitalizeFirstLetter } from './helpers/strings';
 import { MainContext } from './MainContext';
+import CurrentRateDisplay from './components/rate/CurrentRateDisplay';
 
 type TransactionType = 'sell' | 'buy';
 
-const GBP = {
-  symbol: 'GBP',
-  balance: 1000,
-  name: 'Pound sterling',
-};
-
-const USD = {
-  symbol: 'USD',
-  balance: 500,
-  name: 'United States Dollar',
-};
-
 function App() {
-  const { currenciesWithBalance } = useContext(MainContext);
-  const defaultTop = currenciesWithBalance.find((currency) => currency.symbol === 'GBP') || GBP;
-  const defaultBottom = currenciesWithBalance.find((currency) => currency.symbol === 'USD') || USD;
-  const [topCurrency, setTopCurrency] = useState<CurrencyType>(defaultTop);
-  const [bottomCurrency, setBottomCurrency] = useState<CurrencyType>(defaultBottom);
+  const {
+    topCurrency,
+    handleTopCurrencyChange,
+    bottomCurrency,
+    handleBottomCurrencyChange,
+  } = useContext(MainContext);
   const [transactionType, setTransactionType] = useState<TransactionType>('sell');
 
   const switchCurrencies = () => {
@@ -45,9 +34,12 @@ function App() {
         </Typography>
       </Grid>
       <Grid item xs={12}>
+        <CurrentRateDisplay />
+      </Grid>
+      <Grid item xs={12}>
         <CurrencyCard
           currentCurrency={topCurrency}
-          handleCurrencyChange={setTopCurrency}
+          handleCurrencyChange={handleTopCurrencyChange}
         />
       </Grid>
       <Grid
@@ -70,7 +62,7 @@ function App() {
       <Grid item xs={12}>
         <CurrencyCard
           currentCurrency={bottomCurrency}
-          handleCurrencyChange={setBottomCurrency}
+          handleCurrencyChange={handleBottomCurrencyChange}
         />
       </Grid>
       <Grid
