@@ -4,7 +4,7 @@ import {
   Button, Container, Grid, IconButton, Typography,
 } from '@mui/material';
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
-import CurrencyCard from './components/cards/CurrencyCard';
+import CurrencyCard from './components/currency/Card';
 import CurrencyType from './types/currency';
 import { capitalizeFirstLetter } from './helpers/strings';
 

@@ -1,5 +1,5 @@
 type Currency = {
-  symbol: 'GBP' | 'USD' | 'EUR',
+  symbol: string,
   balance: number,
   name: string,
 };

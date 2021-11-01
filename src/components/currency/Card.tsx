@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Grid, Paper, TextField, Typography,
 } from '@mui/material';
-import CurrencySelect from '../utils/CurrencySelect';
+import CurrencySelect from './Select';
 import currencyType from '../../types/currency';
 
 type Props = {
