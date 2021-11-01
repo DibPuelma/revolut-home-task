@@ -3,9 +3,10 @@ import {
   Grid, Paper, TextField, Typography,
 } from '@mui/material';
 import CurrencySelect from '../utils/CurrencySelect';
+import currencyType from '../../types/currency';
 
 type Props = {
-  currentCurrency: string;
+  currentCurrency: currencyType;
 };
 
 const CurrencyCard = ({ currentCurrency }: Props) => {
@@ -31,17 +32,17 @@ const CurrencyCard = ({ currentCurrency }: Props) => {
         <Grid item xs={8}>
           <Grid container>
             <Grid item xs={12}>
-              <CurrencySelect currentCurrency={currentCurrency} />
+              <CurrencySelect currentCurrency={currentCurrency.symbol} />
             </Grid>
             <Grid item xs={12}>
               <Typography
                 variant="caption"
                 style={{
-                  paddingLeft: "0.5em",
-                  color: "rgb(140, 140, 140)",
+                  paddingLeft: '0.5em',
+                  color: 'rgb(140, 140, 140)',
                 }}
               >
-                Balance: £1,000.00
+                {`Balance: ${currentCurrency.balance}`}
               </Typography>
             </Grid>
           </Grid>
@@ -50,8 +51,8 @@ const CurrencyCard = ({ currentCurrency }: Props) => {
           item
           xs={4}
           style={{
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
           <TextField
@@ -60,11 +61,12 @@ const CurrencyCard = ({ currentCurrency }: Props) => {
             onChange={handleValueChange}
             inputProps={{
               style: {
-                textAlign: "right",
+                textAlign: 'right',
               },
             }}
+            // eslint-disable-next-line react/jsx-no-duplicate-props
             InputProps={{
-              type: "number",
+              type: 'number',
               disableUnderline: true,
             }}
           />

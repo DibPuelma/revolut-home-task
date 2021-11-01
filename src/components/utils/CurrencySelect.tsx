@@ -6,12 +6,10 @@ type Props = {
   currentCurrency: string,
 };
 
-const CurrencySelect = ({ currentCurrency }: Props) => {
-  return (
-    <Button size="small" variant="text" endIcon={<KeyboardArrowDown />}>
-      {currentCurrency}
-    </Button>
-  );
-};
+const CurrencySelect = ({ currentCurrency }: Props) => (
+  <Button size="small" variant="text" endIcon={<KeyboardArrowDown />}>
+    {currentCurrency}
+  </Button>
+);
 
 export default CurrencySelect;
