@@ -16,14 +16,15 @@ import { MainContext } from '../../MainContext';
 import CurrencyType from '../../types/currency';
 
 type Props = {
-  currentCurrency: string,
+  currentCurrency: CurrencyType,
+  handleCurrencyChange: (currency: CurrencyType) => void,
 };
 
 // const Transition = React.forwardRef((props, ref) => (
 
 // );
 
-const CurrencySelect = ({ currentCurrency }: Props) => {
+const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const { currenciesWithBalance } = useContext(MainContext);
@@ -41,6 +42,11 @@ const CurrencySelect = ({ currentCurrency }: Props) => {
     setOpen(false);
   };
 
+  const handleListClick = (currency: CurrencyType) => {
+    handleCurrencyChange(currency);
+    handleClose();
+  };
+
   return (
     <>
       <Button
@@ -49,7 +55,7 @@ const CurrencySelect = ({ currentCurrency }: Props) => {
         endIcon={<KeyboardArrowDown />}
         onClick={handleClickOpen}
       >
-        {currentCurrency}
+        {currentCurrency.symbol}
       </Button>
       <Dialog
         fullScreen
@@ -83,7 +89,7 @@ const CurrencySelect = ({ currentCurrency }: Props) => {
               .filter(currencyFilter)
               .map((currency, i) => (
                 <React.Fragment key={currency.symbol}>
-                  <ListItem button>
+                  <ListItem button onClick={() => handleListClick(currency)}>
                     <ListItemText
                       primary={`${currency.symbol} - ${currency.balance}`}
                       secondary={currency.name}

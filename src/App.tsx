@@ -27,8 +27,8 @@ function App() {
   const { currenciesWithBalance } = useContext(MainContext);
   const defaultTop = currenciesWithBalance.find((currency) => currency.symbol === 'GBP') || GBP;
   const defaultBottom = currenciesWithBalance.find((currency) => currency.symbol === 'USD') || USD;
-  const [topCurrency] = useState<CurrencyType>(defaultTop);
-  const [bottomCurrency] = useState<CurrencyType>(defaultBottom);
+  const [topCurrency, setTopCurrency] = useState<CurrencyType>(defaultTop);
+  const [bottomCurrency, setBottomCurrency] = useState<CurrencyType>(defaultBottom);
   const [transactionType, setTransactionType] = useState<TransactionType>('sell');
 
   const switchCurrencies = () => {
@@ -45,7 +45,10 @@ function App() {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <CurrencyCard currentCurrency={topCurrency} />
+        <CurrencyCard
+          currentCurrency={topCurrency}
+          handleCurrencyChange={setTopCurrency}
+        />
       </Grid>
       <Grid
         item
@@ -65,7 +68,10 @@ function App() {
         </IconButton>
       </Grid>
       <Grid item xs={12}>
-        <CurrencyCard currentCurrency={bottomCurrency} />
+        <CurrencyCard
+          currentCurrency={bottomCurrency}
+          handleCurrencyChange={setBottomCurrency}
+        />
       </Grid>
       <Grid
         item

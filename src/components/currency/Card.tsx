@@ -3,13 +3,14 @@ import {
   Grid, Paper, TextField, Typography,
 } from '@mui/material';
 import CurrencySelect from './Select';
-import currencyType from '../../types/currency';
+import CurrencyType from '../../types/currency';
 
 type Props = {
-  currentCurrency: currencyType;
+  currentCurrency: CurrencyType,
+  handleCurrencyChange: (currency: CurrencyType) => void,
 };
 
-const CurrencyCard = ({ currentCurrency }: Props) => {
+const CurrencyCard = ({ currentCurrency, handleCurrencyChange }: Props) => {
   const [valueToExchange, setValueToExchange] = useState(0);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,10 @@ const CurrencyCard = ({ currentCurrency }: Props) => {
         <Grid item xs={8}>
           <Grid container>
             <Grid item xs={12}>
-              <CurrencySelect currentCurrency={currentCurrency.symbol} />
+              <CurrencySelect
+                currentCurrency={currentCurrency}
+                handleCurrencyChange={handleCurrencyChange}
+              />
             </Grid>
             <Grid item xs={12}>
               <Typography
