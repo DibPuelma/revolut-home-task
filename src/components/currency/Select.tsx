@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
-  AppBar,
   Dialog,
   IconButton,
-  Toolbar,
   Button,
   List,
   ListItem,
   ListItemText,
   Divider,
   Container,
+  TextField,
+  InputAdornment,
 } from '@mui/material';
-import { KeyboardArrowDown, ArrowBackIos } from '@mui/icons-material';
+import { KeyboardArrowDown, ArrowBackIos, Search } from '@mui/icons-material';
+import { MainContext } from '../../MainContext';
+import CurrencyType from '../../types/currency';
 
 type Props = {
   currentCurrency: string,
@@ -23,6 +25,13 @@ type Props = {
 
 const CurrencySelect = ({ currentCurrency }: Props) => {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const { currenciesWithBalance } = useContext(MainContext);
+
+  const currencyFilter = (currency: CurrencyType) => (
+    currency.symbol.toLowerCase().includes(search.toLowerCase())
+    || currency.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,29 +58,40 @@ const CurrencySelect = ({ currentCurrency }: Props) => {
       // TransitionComponent={<Slide direction="up" />}
       >
         <Container maxWidth="xs">
-          <AppBar sx={{ position: 'relative' }}>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                color="inherit"
-                onClick={handleClose}
-                aria-label="close"
-              >
-                <ArrowBackIos />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <ArrowBackIos />
+          </IconButton>
+          <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            variant="standard"
+          />
           <List>
-            <ListItem button>
-              <ListItemText primary="Phone ringtone" secondary="Titania" />
-            </ListItem>
-            <Divider />
-            <ListItem button>
-              <ListItemText
-                primary="Default notification ringtone"
-                secondary="Tethys"
-              />
-            </ListItem>
+            {currenciesWithBalance
+              .filter(currencyFilter)
+              .map((currency, i) => (
+                <React.Fragment key={currency.symbol}>
+                  <ListItem button>
+                    <ListItemText
+                      primary={`${currency.symbol} - ${currency.balance}`}
+                      secondary={currency.name}
+                    />
+                  </ListItem>
+                  {i < currenciesWithBalance.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
           </List>
         </Container>
       </Dialog>
