@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Button, Container, Grid } from '@mui/material'
+import { Button, Container, Grid } from '@mui/material';
 import CurrencyCard from './components/cards/CurrencyCard';
 
 function App() {

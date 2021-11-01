@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-import { Grid, Paper, TextField, Typography } from "@mui/material";
-import CurrencySelect from "../utils/CurrencySelect";
+import React, { useState } from 'react';
+import {
+  Grid, Paper, TextField, Typography,
+} from '@mui/material';
+import CurrencySelect from '../utils/CurrencySelect';
 
 type Props = {
   currentCurrency: string;
 };
 
 const CurrencyCard = ({ currentCurrency }: Props) => {
-  const [valueToExchange, setValueToExchange] = useState(0)
+  const [valueToExchange, setValueToExchange] = useState(0);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { value } } = event;
-    //TODO: validate input with regex
+    // TODO: validate input with regex
     const parsedValue = parseInt(value, 10);
     setValueToExchange(parsedValue);
-  }
+  };
 
   return (
     <Paper
