@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Container,
   TextField,
   InputAdornment,
 } from '@mui/material';
@@ -67,45 +66,44 @@ const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
         fullScreen
         open={open}
         onClose={handleClose}
+        maxWidth="xs"
       // TransitionComponent={<Slide direction="up" />}
       >
-        <Container maxWidth="xs">
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-          >
-            <ArrowBackIos />
-          </IconButton>
-          <TextField
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            variant="standard"
-          />
-          <List>
-            {currenciesWithBalance
-              .filter(currencyFilter)
-              .map((currency, i) => (
-                <React.Fragment key={currency.symbol}>
-                  <ListItem button onClick={() => handleListClick(currency)}>
-                    <ListItemText
-                      primary={`${currency.symbol} - ${currency.balance}`}
-                      secondary={currency.name}
-                    />
-                  </ListItem>
-                  {i < currenciesWithBalance.length - 1 && <Divider />}
-                </React.Fragment>
-              ))}
-          </List>
-        </Container>
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={handleClose}
+          aria-label="close"
+        >
+          <ArrowBackIos />
+        </IconButton>
+        <TextField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          variant="standard"
+        />
+        <List>
+          {currenciesWithBalance
+            .filter(currencyFilter)
+            .map((currency, i) => (
+              <React.Fragment key={currency.symbol}>
+                <ListItem button onClick={() => handleListClick(currency)}>
+                  <ListItemText
+                    primary={`${currency.symbol} - ${currency.balance}`}
+                    secondary={currency.name}
+                  />
+                </ListItem>
+                {i < currenciesWithBalance.length - 1 && <Divider />}
+              </React.Fragment>
+            ))}
+        </List>
       </Dialog>
     </>
   );

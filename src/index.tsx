@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MainContextProvider } from './context/MainContext';
+import { MessagingContextProvider } from './context/MessagingContext';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,9 +16,11 @@ ReactDOM.render(
         padding: '2em 1em',
       }}
     >
-      <MainContextProvider>
-        <App />
-      </MainContextProvider>
+      <MessagingContextProvider>
+        <MainContextProvider>
+          <App />
+        </MainContextProvider>
+      </MessagingContextProvider>
     </Container>
   </React.StrictMode>,
   document.getElementById('root'),
