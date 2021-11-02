@@ -1,8 +1,11 @@
 // eslint-disable-next-line import/prefer-default-export
-export const handleError = (error: unknown, setError: (error: string) => void) => {
+export const handleError = (error: unknown, setError: (error: string) => void): string => {
+  let message = '';
   if (typeof error === 'string') {
-    setError(error);
+    message = error;
   } else if (error instanceof Error) {
-    setError(error.message);
+    message = error.message;
   }
+  setError(message);
+  return message;
 };

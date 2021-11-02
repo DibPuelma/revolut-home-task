@@ -12,7 +12,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { KeyboardArrowDown, ArrowBackIos, Search } from '@mui/icons-material';
-import { MainContext } from '../../MainContext';
+import { MainContext } from '../../context/MainContext';
 import CurrencyType from '../../types/currency';
 
 type Props = {

@@ -4,7 +4,7 @@ import { Container } from '@mui/material';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { MainContextProvider } from './MainContext';
+import { MainContextProvider } from './context/MainContext';
 
 ReactDOM.render(
   <React.StrictMode>

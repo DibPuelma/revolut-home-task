@@ -1,7 +1,7 @@
 import { TrendingUp } from '@mui/icons-material';
 import { Grid, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { MainContext } from '../../MainContext';
+import { MainContext } from '../../context/MainContext';
 
 const CurrentRateDisplay = () => {
   const { currentRate, topCurrency, bottomCurrency } = useContext(MainContext);

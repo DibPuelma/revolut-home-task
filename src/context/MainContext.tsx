@@ -1,14 +1,15 @@
-import { LinearProgress } from '@mui/material';
 import React, {
   ReactNode, createContext, useEffect, useState,
 } from 'react';
+import { LinearProgress } from '@mui/material';
 import {
   getCurrencyList,
   /* getAllRatesForSymbol, */
   getAllRatesForUSD,
-} from './api/currency';
-import { handleError } from './helpers/errors';
-import CurrencyType from './types/currency';
+} from '../api/currency';
+import { handleError } from '../helpers/errors';
+import CurrencyType from '../types/currency';
+import TransactionType from '../types/transaction';
 
 const BASE_SYMBOL = 'USD';
 
@@ -18,6 +19,10 @@ type CurrencyHash = {
 
 type RatesHash = {
   [key: string]: number,
+};
+
+type CurrencyWithAmount = CurrencyType & {
+  amount: number,
 };
 
 type ContextType = {
@@ -33,6 +38,11 @@ type ContextType = {
   handleBottomCurrencyChange: (currency: CurrencyType) => void,
   rates: RatesHash,
   currentRate: number,
+  commitTransaction?: (
+    topData: CurrencyWithAmount,
+    bottomData: CurrencyWithAmount,
+    transactionType: TransactionType,
+  ) => Promise<boolean>,
 };
 
 type Props = {
@@ -123,6 +133,52 @@ export const MainContextProvider = ({ children }: Props) => {
     else handleCurrentRate(calculateRate(topCurrency.symbol, currency.symbol));
   };
 
+  const commitTransaction = (
+    topData: CurrencyWithAmount,
+    bottomData: CurrencyWithAmount,
+    transactionType: TransactionType,
+  ) => new Promise<boolean>((resolve, reject) => {
+    const oldCurrenciesWithBalance = [...currenciesWithBalance];
+    const newCurrenciesWithBalance = [...currenciesWithBalance];
+    try {
+      let sellFound;
+      let buyFound;
+      let sellAmount = 0;
+      let buyAmount = 0;
+      if (transactionType === 'sell') {
+        sellFound = newCurrenciesWithBalance.find(
+          (currency) => currency.symbol === topData.symbol,
+        );
+        sellAmount = topData.amount;
+        buyFound = newCurrenciesWithBalance.find(
+          (currency) => currency.symbol === bottomData.symbol,
+        );
+        buyAmount = bottomData.amount;
+      } else if (transactionType === 'buy') {
+        sellFound = newCurrenciesWithBalance.find(
+          (currency) => currency.symbol === bottomData.symbol,
+        );
+        sellAmount = bottomData.amount;
+        buyFound = newCurrenciesWithBalance.find(
+          (currency) => currency.symbol === topData.symbol,
+        );
+        buyAmount = bottomData.amount;
+      }
+      if (!sellFound) return reject(new Error('Sell currency not found'));
+      if (!buyFound) return reject(new Error('Buy currency not found'));
+
+      sellFound.balance -= parseFloat(sellAmount.toFixed(2));
+      buyFound.balance += parseFloat(buyAmount.toFixed(2));
+
+      setCurrenciesWithBalance(newCurrenciesWithBalance);
+      return resolve(true);
+    } catch (transactionError) {
+      setCurrenciesWithBalance(oldCurrenciesWithBalance);
+      const message = handleError(transactionError, setError);
+      return reject(new Error(message));
+    }
+  });
+
   useEffect(() => {
     const getCurrencies = async () => {
       try {
@@ -178,6 +234,7 @@ export const MainContextProvider = ({ children }: Props) => {
       handleBottomCurrencyChange,
       rates,
       currentRate,
+      commitTransaction,
     }}
     >
       {children}
