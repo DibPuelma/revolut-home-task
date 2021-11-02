@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Grid, Paper, TextField, Typography,
 } from '@mui/material';
@@ -7,21 +7,24 @@ import CurrencyType from '../../types/currency';
 
 type Props = {
   currentCurrency: CurrencyType,
+  error: string,
+  valueToExchange: number,
   handleCurrencyChange: (currency: CurrencyType) => void,
+  handleExchangeAmountChange: (amount: number) => void,
 };
 
-const CurrencyCard = ({ currentCurrency, handleCurrencyChange }: Props) => {
-  const [valueToExchange, setValueToExchange] = useState(0);
-  const [error, setError] = useState('');
-
+const CurrencyCard = ({
+  currentCurrency,
+  handleCurrencyChange,
+  error,
+  handleExchangeAmountChange,
+  valueToExchange,
+}: Props) => {
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { value } } = event;
     const parsedValue = parseFloat(parseFloat(value).toFixed(2));
     if (parsedValue === 0) return;
-    if (parsedValue > currentCurrency.balance) {
-      setError('Exceeds your balance');
-    }
-    setValueToExchange(parsedValue);
+    handleExchangeAmountChange(parsedValue);
   };
 
   return (

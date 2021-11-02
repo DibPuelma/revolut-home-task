@@ -17,14 +17,52 @@ function App() {
     handleTopCurrencyChange,
     bottomCurrency,
     handleBottomCurrencyChange,
+    currentRate,
   } = useContext(MainContext);
   const [transactionType, setTransactionType] = useState<TransactionType>('sell');
+  const [topError, setTopError] = useState('');
+  const [bottomError, setBottomError] = useState('');
+  const [topAmount, setTopAmount] = useState(0);
+  const [bottomAmount, setBottomAmount] = useState(0);
 
   const switchCurrencies = () => {
     setTransactionType(transactionType === 'sell' ? 'buy' : 'sell');
   };
 
+  const checkTopAmount = (amount: number) => {
+    if (amount > topCurrency.balance && transactionType === 'sell') {
+      setTopError('Exceeds your balance');
+    } else {
+      setTopError('');
+    }
+  };
+
+  const checkBottomAmount = (amount: number) => {
+    if (amount > bottomCurrency.balance && transactionType === 'buy') {
+      setBottomError('Exceeds your balance');
+    } else {
+      setBottomError('');
+    }
+  };
+
+  const handleTopExchangeAmountChange = (amount: number) => {
+    setTopAmount(amount);
+    checkTopAmount(amount);
+    const newBottomAmount = amount * currentRate;
+    setBottomAmount(newBottomAmount);
+    checkBottomAmount(newBottomAmount);
+  };
+
+  const handleBottomExchangeAmountChange = (amount: number) => {
+    setBottomAmount(amount);
+    checkBottomAmount(amount);
+    const newTopAmount = amount / currentRate;
+    setTopAmount(newTopAmount);
+    checkTopAmount(newTopAmount);
+  };
+
   const capitalizedTransactionType = capitalizeFirstLetter(transactionType);
+  const anyError = Boolean(topError) || Boolean(bottomError);
 
   return (
     <Grid container spacing={2}>
@@ -40,6 +78,9 @@ function App() {
         <CurrencyCard
           currentCurrency={topCurrency}
           handleCurrencyChange={handleTopCurrencyChange}
+          handleExchangeAmountChange={handleTopExchangeAmountChange}
+          error={topError}
+          valueToExchange={topAmount}
         />
       </Grid>
       <Grid
@@ -63,6 +104,9 @@ function App() {
         <CurrencyCard
           currentCurrency={bottomCurrency}
           handleCurrencyChange={handleBottomCurrencyChange}
+          handleExchangeAmountChange={handleBottomExchangeAmountChange}
+          error={bottomError}
+          valueToExchange={bottomAmount}
         />
       </Grid>
       <Grid
@@ -73,7 +117,10 @@ function App() {
           justifyContent: 'center',
         }}
       >
-        <Button variant="contained">
+        <Button
+          variant="contained"
+          disabled={anyError}
+        >
           {`${capitalizedTransactionType} ${topCurrency.symbol} for ${bottomCurrency.symbol}`}
         </Button>
       </Grid>
