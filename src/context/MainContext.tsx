@@ -162,13 +162,17 @@ export const MainContextProvider = ({ children }: Props) => {
         buyFound = newCurrenciesWithBalance.find(
           (currency) => currency.symbol === topData.symbol,
         );
-        buyAmount = bottomData.amount;
+        buyAmount = topData.amount;
       }
       if (!sellFound) return reject(new Error('Sell currency not found'));
       if (!buyFound) return reject(new Error('Buy currency not found'));
 
-      sellFound.balance -= parseFloat(sellAmount.toFixed(2));
-      buyFound.balance += parseFloat(buyAmount.toFixed(2));
+      sellFound.balance = parseFloat(
+        (sellFound.balance - parseFloat(sellAmount.toFixed(2))).toFixed(2),
+      );
+      buyFound.balance = parseFloat(
+        (buyFound.balance + parseFloat(buyAmount.toFixed(2))).toFixed(2),
+      );
 
       setCurrenciesWithBalance(newCurrenciesWithBalance);
       return resolve(true);
