@@ -12,11 +12,15 @@ type Props = {
 
 const CurrencyCard = ({ currentCurrency, handleCurrencyChange }: Props) => {
   const [valueToExchange, setValueToExchange] = useState(0);
+  const [error, setError] = useState('');
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target: { value } } = event;
-    // TODO: validate input with regex
-    const parsedValue = parseInt(value, 10);
+    const parsedValue = parseFloat(parseFloat(value).toFixed(2));
+    if (parsedValue === 0) return;
+    if (parsedValue > currentCurrency.balance) {
+      setError('Exceeds your balance');
+    }
     setValueToExchange(parsedValue);
   };
 
@@ -46,7 +50,7 @@ const CurrencyCard = ({ currentCurrency, handleCurrencyChange }: Props) => {
                   color: 'rgb(140, 140, 140)',
                 }}
               >
-                {`Balance: ${currentCurrency.balance}`}
+                {`Balance: ${currentCurrency.symbol} ${currentCurrency.balance}`}
               </Typography>
             </Grid>
           </Grid>
@@ -67,10 +71,13 @@ const CurrencyCard = ({ currentCurrency, handleCurrencyChange }: Props) => {
               style: {
                 textAlign: 'right',
               },
+              // eslint-disable-next-line no-useless-escape
+              type: 'number',
             }}
+            error={Boolean(error)}
+            helperText={error}
             // eslint-disable-next-line react/jsx-no-duplicate-props
             InputProps={{
-              type: 'number',
               disableUnderline: true,
             }}
           />
