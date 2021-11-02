@@ -158,6 +158,9 @@ export const MainContextProvider = ({ children }: Props) => {
       }
     };
     getRates();
+    setInterval(() => {
+      getRates();
+    }, 10000);
   }, []);
 
   if (loading) return <LinearProgress />;
