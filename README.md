@@ -1,7 +1,7 @@
 # Home task for Revolut
 
 ### Usage
-To run in development, download and then run `yarn start`
+To run in development, download and then run `yarn` to install dependencies and `yarn start` to run the development server
 
 To run the test suit, download and then run `yarn test`
 
