@@ -7,7 +7,8 @@ To run the test suit, download and then run `yarn test`
 
 ### Build the widget
 
-To build the widget, download and then run `yarn build:widget`
+To build the widget, download and then run `yarn build:widget`. If you run into problems, try deleting the .cache folder
+
 ### Notes
 - .env is in the repository so you can have access to the API credentials
 
