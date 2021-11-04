@@ -17,6 +17,6 @@ To build the widget, download and then run `yarn build:widget`. If you run into 
 
 - More testing is needed, specially for the Exchange component and the MainContext
 
-- Make the widget.js file smaller with some compression
+- Make the widget.js file smaller with some compression. Could get it from 9.04MB to 809.57KB with parcel-plugin-compress library
 
 - Use a CDN to make the widget available as a js script and css link
