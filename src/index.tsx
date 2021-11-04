@@ -23,7 +23,7 @@ ReactDOM.render(
       </MessagingContextProvider>
     </Container>
   </React.StrictMode>,
-  document.getElementById('root'),
+  document.getElementById('revolut-home-task-widget'),
 );
 
 // If you want to start measuring performance in your app, pass a function
