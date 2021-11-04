@@ -30,7 +30,7 @@ const Alert = () => {
       maxWidth="xs"
     >
       <DialogTitle id="alert-dialog-title">
-        {alertType === 'error' ? 'Error' : 'Transaction succesfull'}
+        {alertType === 'error' ? 'Error' : 'Transaction succesful'}
       </DialogTitle>
       <DialogContent>
         {alertType === 'error' ? (
@@ -39,6 +39,7 @@ const Alert = () => {
           </DialogContentText>
         ) : (
           <Lottie
+            data-testid="animation"
             animationData={successAnimation}
             loop={false}
             size={100}
@@ -46,7 +47,7 @@ const Alert = () => {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Accept</Button>
+        <Button data-testid="accept-button" onClick={handleClose}>Accept</Button>
       </DialogActions>
     </Dialog>
   );

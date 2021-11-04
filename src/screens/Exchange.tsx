@@ -98,7 +98,7 @@ const Exchange = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h4">
+        <Typography variant="h4" data-testid="header">
           {`${capitalizedTransactionType} ${topCurrency.symbol}`}
         </Typography>
       </Grid>
@@ -123,6 +123,7 @@ const Exchange = () => {
         }}
       >
         <IconButton
+          data-testid="switch-currencies-button"
           color="primary"
           aria-label="switch currencies"
           component="span"

@@ -74,6 +74,7 @@ const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
           color="inherit"
           onClick={handleClose}
           aria-label="close"
+          data-testid="arrow-back-close"
         >
           <ArrowBackIos />
         </IconButton>
@@ -85,6 +86,10 @@ const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
               </InputAdornment>
             ),
           }}
+          // eslint-disable-next-line react/jsx-no-duplicate-props
+          inputProps={{
+            'data-testid': 'search-field',
+          }}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           variant="standard"
@@ -94,7 +99,11 @@ const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
             .filter(currencyFilter)
             .map((currency, i) => (
               <React.Fragment key={currency.symbol}>
-                <ListItem button onClick={() => handleListClick(currency)}>
+                <ListItem
+                  data-testid={currency.symbol}
+                  button
+                  onClick={() => handleListClick(currency)}
+                >
                   <ListItemText
                     primary={`${currency.symbol} - ${currency.balance}`}
                     secondary={currency.name}

@@ -74,8 +74,8 @@ const CurrencyCard = ({
               style: {
                 textAlign: 'right',
               },
-              // eslint-disable-next-line no-useless-escape
               type: 'number',
+              'data-testid': `${currentCurrency.symbol}-value-change`,
             }}
             error={Boolean(error)}
             helperText={error}
