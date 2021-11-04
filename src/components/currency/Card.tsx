@@ -32,8 +32,8 @@ const CurrencyCard = ({
       elevation={0}
       style={{
         borderRadius: 10,
-        padding: '0.5em',
-        paddingRight: '2em',
+        padding: '0.5rem',
+        paddingRight: '2rem',
       }}
     >
       <Grid container>
@@ -49,7 +49,7 @@ const CurrencyCard = ({
               <Typography
                 variant="caption"
                 style={{
-                  paddingLeft: '0.5em',
+                  paddingLeft: '0.5rem',
                   color: 'rgb(140, 140, 140)',
                 }}
               >

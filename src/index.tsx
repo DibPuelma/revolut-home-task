@@ -13,7 +13,7 @@ ReactDOM.render(
       maxWidth="xs"
       style={{
         backgroundColor: 'rgb(247,247,247)',
-        padding: '2em 1em',
+        padding: '2em 1rem',
       }}
     >
       <MessagingContextProvider>

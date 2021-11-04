@@ -9,6 +9,8 @@ import {
   Divider,
   TextField,
   InputAdornment,
+  Container,
+  Grid,
 } from '@mui/material';
 import { KeyboardArrowDown, ArrowBackIos, Search } from '@mui/icons-material';
 import { MainContext } from '../../context/MainContext';
@@ -66,53 +68,62 @@ const CurrencySelect = ({ currentCurrency, handleCurrencyChange }: Props) => {
         fullScreen
         open={open}
         onClose={handleClose}
-        maxWidth="xs"
       // TransitionComponent={<Slide direction="up" />}
       >
-        <IconButton
-          edge="start"
-          color="inherit"
-          onClick={handleClose}
-          aria-label="close"
-          data-testid="arrow-back-close"
-        >
-          <ArrowBackIos />
-        </IconButton>
-        <TextField
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          }}
-          // eslint-disable-next-line react/jsx-no-duplicate-props
-          inputProps={{
-            'data-testid': 'search-field',
-          }}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          variant="standard"
-        />
-        <List>
-          {currenciesWithBalance
-            .filter(currencyFilter)
-            .map((currency, i) => (
-              <React.Fragment key={currency.symbol}>
-                <ListItem
-                  data-testid={currency.symbol}
-                  button
-                  onClick={() => handleListClick(currency)}
-                >
-                  <ListItemText
-                    primary={`${currency.symbol} - ${currency.balance}`}
-                    secondary={currency.name}
-                  />
-                </ListItem>
-                {i < currenciesWithBalance.length - 1 && <Divider />}
-              </React.Fragment>
-            ))}
-        </List>
+        <Container maxWidth="xs" style={{ paddingTop: '2rem' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={1}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClose}
+                aria-label="close"
+                data-testid="arrow-back-close"
+              >
+                <ArrowBackIos />
+              </IconButton>
+            </Grid>
+            <Grid item xs={11}>
+              <TextField
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+                // eslint-disable-next-line react/jsx-no-duplicate-props
+                inputProps={{
+                  'data-testid': 'search-field',
+                }}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+          </Grid>
+          <List>
+            {currenciesWithBalance
+              .filter(currencyFilter)
+              .map((currency, i) => (
+                <React.Fragment key={currency.symbol}>
+                  <ListItem
+                    data-testid={currency.symbol}
+                    button
+                    onClick={() => handleListClick(currency)}
+                  >
+                    <ListItemText
+                      primary={`${currency.symbol} - ${currency.balance}`}
+                      secondary={currency.name}
+                    />
+                  </ListItem>
+                  {i < currenciesWithBalance.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
+          </List>
+        </Container>
       </Dialog>
     </>
   );
